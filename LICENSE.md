@@ -1,8 +1,8 @@
-= License
+# License
 
 (The MIT License)
 
-Copyright (c) 2008-2009 Simone Carletti <weppos@weppos.net>
+Copyright 2013 Nick Charlton <hello@nickcharlton.net>
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

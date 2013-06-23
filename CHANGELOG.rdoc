@@ -1,5 +1,0 @@
-= Changelog
-
-== Release 0.1.0
-
-* Initial public release based on Apache::LogRegex 1.4.
