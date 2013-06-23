@@ -23,7 +23,7 @@ parse the lines in a log file, but returning a hash of native types:
 ```ruby
 require 'apachelogparser'
 
-parser = ApacheLogParser.new(format)
+parser = ApacheLogParser.new(ApacheLogParser::COMBINED_VIRTUAL_HOST)
 
 File.foreach('/var/log/apache/access.log') do |line|
   puts parser.parse(line)
@@ -32,6 +32,8 @@ end
 
 `parse` will silently ignore errors, but if you'd prefer, `parse!` will raise a 
 `ParseError` exception.
+
+## Example Response
 
 The response will look a bit like this (but with data, not datatypes):
 
@@ -52,6 +54,17 @@ The response will look a bit like this (but with data, not datatypes):
 
 Apache log files use "-" to mean no data is present and these are replaced with nil,
 like the "identity" and "user" values above. Request is split into a nested hash.
+
+## Log Formats
+
+The log format is specified using a rather verbose constant, which map out like:
+
+Name                                 | Constant                         | Apache Format
+------------------------------------ | -------------------------------- | ---------------------------------------------------------------------
+Common Log Format                    | `COMMON_LOG_FORMAT`              | `%h %l %u %t \"%r\" %>s %b`
+Common Log Format with virtual hosts | `COMMON_LOG_FORMAT_VIRTUAL_HOST` | `%v %h %l %u %t \"%r\" %>s %b`
+Combined                             | `COMBINED`                       | `%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"`
+Combined with virtual hosts          | `COMBINDED_VIRTUAL_HOST`         | `%v %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"`
 
 ## Credits
 
