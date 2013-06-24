@@ -66,6 +66,10 @@ class ApacheLogRegex
   GEM             = 'apachelogregex'
   AUTHOR          = 'Simone Carletti <weppos@weppos.net>'
   
+  COMMON_LOG_FORMAT = '%h %l %u %t \"%r\" %>s %b'
+  COMMON_LOG_FORMAT_VIRTUAL_HOST = '%v %h %l %u %t \"%r\" %>s %b'
+  COMBINED = '%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"'
+  COMBINED_VIRTUAL_HOST = '%v %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"'
   
   #
   # = ParseError
@@ -74,20 +78,6 @@ class ApacheLogRegex
   #
   class ParseError < RuntimeError; end
   
-  
-  # The normalized log file format.
-  # Some common formats:
-  # 
-  #   Common Log Format (CLF)
-  #   '%h %l %u %t \"%r\" %>s %b'
-  # 
-  #   Common Log Format with Virtual Host
-  #   '%v %h %l %u %t \"%r\" %>s %b'
-  # 
-  #   NCSA extended/combined log format
-  #   '%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"'
-  # 
-  attr_reader :format
 
   # Regexp instance used for parsing a log line.
   attr_reader :regexp
