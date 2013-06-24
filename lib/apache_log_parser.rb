@@ -1,11 +1,11 @@
 #
-# = Apache Log Regex
+# = Apache Log Parser
 #
-# Ruby parser for Apache log files based on regular expressions.
+# Ruby library to parse web server log files using regular expressions.
 #
 # Category::    
-# Package::     ApacheLogRegex
-# Author::      Simone Carletti <weppos@weppos.net>
+# Package::     ApacheLogParser
+# Author::      Nick Charlton <hello@nickcharlton.net>
 # License::     MIT License
 #
 #--
@@ -13,17 +13,21 @@
 #++
 
 
-require 'apache_log_regex/version'
+require 'apache_log_parser/version'
 
 
 #
-# = Apache Log Regex
+# = Apache Log Parser
 #
-# Parse a line from an Apache log file into a hash.
+# ApacheLogParser provides a high-level Ruby library for parsing web server log
+# files (common log format, with or without virtual hosts and combined log
+# format) as used by Apache, Nginx and others.
 #
-# This is a Ruby port of Peter Hickman's Apache::LogRegex 1.4 Perl module,
-# available at http://cpan.uwinnipeg.ca/~peterhi/Apache-LogRegex.
-# 
+# It's a fork of Simone Carletti's ApacheLogRegex, but abstracts the log format
+# to allow for a nicer response (using Ruby objects, not just Strings).
+# ApacheLogRegex was in turn a port of Peter Hickman's Apache::LogRegex 1.4
+# Perl module where much of the regex parts come from.
+#
 # == Example Usage
 # 
 # The following one is the most simple example usage. 
@@ -60,11 +64,11 @@ require 'apache_log_regex/version'
 #   # Raises an exception
 #   parser.parse!(line) # => ParseError
 # 
-class ApacheLogRegex
+class ApacheLogParser
   
-  NAME            = 'ApacheLogRegex'
-  GEM             = 'apachelogregex'
-  AUTHOR          = 'Simone Carletti <weppos@weppos.net>'
+  NAME            = 'ApacheLogParser'
+  GEM             = 'apachelogparser'
+  AUTHOR          = 'Nick Charlton <hello@nickcharlton.net>'
   
   COMMON_LOG_FORMAT = '%h %l %u %t \"%r\" %>s %b'
   COMMON_LOG_FORMAT_VIRTUAL_HOST = '%v %h %l %u %t \"%r\" %>s %b'
@@ -107,7 +111,7 @@ class ApacheLogRegex
     data
   end
 
-  # Same as <tt>ApacheLogRegex#parse</tt> but raises a <tt>ParseError</tt>
+  # Same as <tt>ApacheLogParser#parse</tt> but raises a <tt>ParseError</tt>
   # if <tt>line</tt> doesn't match current <tt>format</tt>.
   # 
   # ==== Raises

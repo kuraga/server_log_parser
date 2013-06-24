@@ -5,18 +5,18 @@ gem     'echoe', '>= 3.1'
 require 'echoe'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__) + "/lib")
-require 'apache_log_regex'
+require 'apache_log_parser'
 
 
 # Common package properties
-PKG_NAME    = ENV['PKG_NAME']    || ApacheLogRegex::GEM
-PKG_VERSION = ENV['PKG_VERSION'] || ApacheLogRegex::VERSION
-PKG_SUMMARY = "Ruby parser for Apache log files based on regular expressions."
+PKG_NAME    = ENV['PKG_NAME']    || ApacheLogParser::GEM
+PKG_VERSION = ENV['PKG_VERSION'] || ApacheLogParser::VERSION
+PKG_SUMMARY = "Ruby library to parse web server log files using regular expressions."
 PKG_FILES   = FileList.new("{lib,test}/**/*.rb") do |files|
-  files.include %w(README.rdoc CHANGELOG.rdoc LICENSE.rdoc)
+  files.include %w(README.md LICENSE.md)
   files.include %w(Rakefile setup.rb)
 end
-RUBYFORGE_PROJECT = 'apachelogregex'
+RUBYFORGE_PROJECT = 'apachelogparser'
  
 if ENV['SNAPSHOT'].to_i == 1
   PKG_VERSION << "." << Time.now.utc.strftime("%Y%m%d%H%M%S")
@@ -24,20 +24,25 @@ end
  
  
 Echoe.new(PKG_NAME, PKG_VERSION) do |p|
-  p.author        = "Simone Carletti"
-  p.email         = "weppos@weppos.net"
+  p.author        = "Nick Charlton"
+  p.email         = "hello@nickcharlton.net"
   p.summary       = PKG_SUMMARY
   p.description   = <<-EOF
-    Apache Log Regex is a Ruby port \ 
-    of Peter Hickman's Apache::LogRegex 1.4 Perl module. \
-    It provides functionalities to parse a line from an Apache log file into a hash.
+    ApacheLogParser provides a high-level Ruby library for parsing web server \
+    log files (common log format, with or without virtual hosts and combined \
+    log format) as used by Apache, Nginx and others.
+
+    It's a fork of Simone Carletti's ApacheLogRegex, but abstracts the log \
+    format to allow for a nicer response (using Ruby objects, not just \
+    Strings). ApacheLogRegex was in turn a port of Peter Hickman's \
+    Apache::LogRegex 1.4 Perl module where much of the regex parts come from.
   EOF
-  p.url           = "http://code.simonecarletti.com/apachelogregex"
+  p.url           = "https://github.com/nickcharlton/apachelogparser"
   p.project       = RUBYFORGE_PROJECT
 
   p.need_zip      = true
-  p.rcov_options  = ["--main << README.rdoc -x Rakefile -x rcov"]
-  p.rdoc_pattern  = /^(lib|CHANGELOG.rdoc|README.rdoc)/
+  p.rcov_options  = ["--main << README.md -x Rakefile -x rcov"]
+  p.rdoc_pattern  = /^(lib|README.md)/
 
   p.development_dependencies += ["rake  >=0.8",
                                  "echoe >=3.1"]
@@ -48,7 +53,7 @@ begin
   require 'code_statistics'
   desc "Show library's code statistics"
   task :stats do
-    CodeStatistics.new(["ApacheLogRegex", "lib"],
+    CodeStatistics.new(["ApacheLogParser", "lib"],
                        ["Tests", "test"]).to_s
   end
 rescue LoadError

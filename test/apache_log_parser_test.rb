@@ -1,11 +1,11 @@
 #
-# = Apache Log Regex
+# = Apache Log Parser
 #
-# Ruby parser for Apache log files based on regular expressions.
+# Ruby library to parse web server log files using regular expressions.
 #
 # Category::    
-# Package::     ApacheLogRegex
-# Author::      Simone Carletti <weppos@weppos.net>
+# Package::     ApacheLogParser
+# Author::      Nick Charlton <hello@nickcharlton.net>
 # License::     
 #
 #--
@@ -16,7 +16,7 @@
 require 'test_helper'
 
 
-class ApacheLogRegexTest < Test::Unit::TestCase
+class ApacheLogParserTest < Test::Unit::TestCase
   
   def setup
     @format = '%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"'
@@ -90,7 +90,7 @@ class ApacheLogRegexTest < Test::Unit::TestCase
   end
   
   def test_stricparse_line_should_raise_on_invalid_format
-    error = assert_raise(ApacheLogRegex::ParseError) { results = @parser.parse!('foobar') }
+    error = assert_raise(ApacheLogParser::ParseError) { results = @parser.parse!('foobar') }
     assert_match(/Invalid format/, error.message)
   end
   

@@ -6,13 +6,11 @@
 # Category::    
 # Package::     ApacheLogParser
 # Author::      Nick Charlton <hello@nickcharlton.net>
-# License::     
+# License::     MIT License
 #
 #--
 # SVN: $Id$
 #++
 
 
-require 'test_helper'
-
-Dir.glob(File.dirname(__FILE__) + '/**/*_test.rb').sort.each { |unit| require unit }
+require 'apache_log_parser'
