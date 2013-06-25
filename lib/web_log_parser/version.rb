@@ -1,3 +1,3 @@
-class ApacheLogParser
+class WebLogParser
   VERSION = "0.2.0"
 end

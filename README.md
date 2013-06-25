@@ -1,6 +1,6 @@
-# ApacheLogParser
+# WebLogParser
 
-ApacheLogParser provides a high-level Ruby library for parsing web server log files
+WebLogParser provides a high-level Ruby library for parsing web server log files
 (common log format, with or without virtual hosts and combined log format) as used
 by Apache, Nginx and others.
 
@@ -81,5 +81,5 @@ Combined with virtual hosts          | `COMBINDED_VIRTUAL_HOST`         | `%v %h
 
 ## License
 
-Copyright 2013 Nick Charlton. ApacheLogParser is licensed under the MIT library.
+Copyright 2013 Nick Charlton. WebLogParser is licensed under the MIT library.
 

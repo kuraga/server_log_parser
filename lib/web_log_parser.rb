@@ -1,6 +1,6 @@
-require 'apache_log_parser/version'
+require 'web_log_parser/version'
 
-class ApacheLogParser  
+class WebLogParser  
   COMMON_LOG_FORMAT = '%h %l %u %t \"%r\" %>s %b'
   COMMON_LOG_FORMAT_VIRTUAL_HOST = '%v %h %l %u %t \"%r\" %>s %b'
   COMBINED = '%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"'
@@ -42,7 +42,7 @@ class ApacheLogParser
     data
   end
 
-  # Same as <tt>ApacheLogParser#parse</tt> but raises a <tt>ParseError</tt>
+  # Same as <tt>WebLogParser#parse</tt> but raises a <tt>ParseError</tt>
   # if <tt>line</tt> doesn't match current <tt>format</tt>.
   # 
   # ==== Raises
