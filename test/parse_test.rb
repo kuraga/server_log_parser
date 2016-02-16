@@ -1,10 +1,10 @@
 require 'test_helper'
 
-describe WebLogParser do
+describe ServerLogParser do
 
   before do
     @format = '%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"'
-    @parser = WebLogParser.new(@format)
+    @parser = ServerLogParser.new(@format)
   end
 
   describe "#parse" do
@@ -77,7 +77,7 @@ describe WebLogParser do
     end
 
     it "should raise on invalid format" do
-      error = assert_raises(WebLogParser::ParseError) { @parser.parse!('foobar') }
+      error = assert_raises(ServerLogParser::ParseError) { @parser.parse!('foobar') }
       assert_match(/Invalid format/, error.message)
     end
 

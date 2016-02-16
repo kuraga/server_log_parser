@@ -1,6 +1,6 @@
-# WebLogParser
+# ServerLogParser
 
-WebLogParser provides a high-level Ruby library for parsing web server log files
+ServerLogParser provides a high-level Ruby library for parsing apache server log files
 (common log format, with or without virtual hosts and combined log format) as used
 by Apache, Nginx and others.
 
@@ -11,7 +11,7 @@ where much of the regex parts come from.
 ## Installation
 
 ```sh
-gem install web_log_parser
+gem install server_log_parser
 ```
 
 ## Usage
@@ -19,11 +19,11 @@ gem install web_log_parser
 ### Initialization
 
 ```ruby
-require 'web_log_parser'
+require 'server_log_parser'
 
-parser = WebLogParser.new(WebLogParser::COMBINED_VIRTUAL_HOST)
+parser = ServerLogParser.new(ServerLogParser::COMBINED_VIRTUAL_HOST)
 # or:
-# parser = WebLogParser.new('%v %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"')
+# parser = ServerLogParser.new('%v %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"')
 ```
 
 ### Parsing
@@ -45,8 +45,8 @@ File.foreach('/var/log/apache/access.log') do |line|
 end
 ```
 
-`WebLogParser#parse` will silently ignore errors, but if you'd prefer,
-`WebLogParser#parse!` will raise a  `ParseError` exception.
+`ServerLogParser#parse` will silently ignore errors, but if you'd prefer,
+`ServerLogParser#parse!` will raise a  `ParseError` exception.
 
 Apache log files use "-" to mean no data is present and these are replaced with nil,
 like the "identity" and "user" values above. Request is split into a nested hash.
