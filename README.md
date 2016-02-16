@@ -4,21 +4,19 @@ WebLogParser provides a high-level Ruby library for parsing web server log files
 (common log format, with or without virtual hosts and combined log format) as used
 by Apache, Nginx and others.
 
-It's a fork of [Simone Carletti][]'s [ApacheLogRegex][], but abstracts the log format
-to allow for a nicer response (using Ruby objects, not just Strings). ApacheLogRegex
-was in turn a port of Peter Hickman's [Apache::LogRegex 1.4 Perl module][perl]
+It's a fork of [ApacheLogRegex](https://github.com/weppos/apachelogregex),
+which was in turn a port of [Apache::LogRegex 1.4 Perl module](http://search.cpan.org/~akira/Apache-ParseLog-1.02/ParseLog.pm).
 where much of the regex parts come from.
 
-It has no dependencies and works with Ruby 2.0.
+## Installation
 
-[Simone Carletti]: http://www.simonecarletti.com/
-[ApacheLogRegex]: https://github.com/weppos/apachelogregex
-[perl]: http://search.cpan.org/~akira/Apache-ParseLog-1.02/ParseLog.pm
+```sh
+gem install web_log_parser
+```
 
-## Example Usage
+## Usage
 
-Much like the original, it presents a simple parser class which can then be used to
-parse the lines in a log file, but returning a hash of native types:
+### Initialization
 
 ```ruby
 require 'web_log_parser'
@@ -26,38 +24,34 @@ require 'web_log_parser'
 parser = WebLogParser.new(WebLogParser::COMBINED_VIRTUAL_HOST)
 # or:
 # parser = WebLogParser.new('%v %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"')
+```
 
+### Parsing
+
+```ruby
 File.foreach('/var/log/apache/access.log') do |line|
-  puts parser.parse(line)
+  parsed = parser.parse(line)
+  # {
+  #   '%h'  => '212.74.15.68',
+  #   '%l'  => '-',
+  #   '%u'  => '-',
+  #   '%t'  => '[23/Jan/2004:11:36:20 +0000]',
+  #   '%r'  => 'GET /images/previous.png HTTP/1.1',
+  #   '%>s' => '200',
+  #   '%b'  => '2607',
+  #   '%{Referer}i'     => 'http://peterhi.dyndns.org/bandwidth/index.html',
+  #   '%{User-Agent}i'  => 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.2) Gecko/20021202'
+  # }
 end
 ```
 
-`parse` will silently ignore errors, but if you'd prefer, `parse!` will raise a 
-`ParseError` exception.
-
-## Example Response
-
-The response will look a bit like this (but with data, not datatypes):
-
-```ruby
-{
-    "virtual_host" => String,
-    "host" => String,
-    "identity" => nil,
-    "user" => nil,
-    "timestamp" => DateTime,
-    "request" => {"method" => String, "resource" => String, "protocol" => String},
-    "status" => Integer,
-    "bytes" => Integer,
-    "referrer" => String,
-    "user_agent" => String
-}
-```
+`WebLogParser#parse` will silently ignore errors, but if you'd prefer,
+`WebLogParser#parse!` will raise a  `ParseError` exception.
 
 Apache log files use "-" to mean no data is present and these are replaced with nil,
 like the "identity" and "user" values above. Request is split into a nested hash.
 
-## Log Formats
+### Log Formats
 
 The log format is specified using a rather verbose constant, which map out like:
 
@@ -68,20 +62,11 @@ Common Log Format with virtual hosts | `COMMON_LOG_FORMAT_VIRTUAL_HOST` | `%v %h
 Combined                             | `COMBINED`                       | `%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"`
 Combined with virtual hosts          | `COMBINDED_VIRTUAL_HOST`         | `%v %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"`
 
-## Credits
-
-* Maintainer: Nick Charlton <hello@nickcharlton.net>
-* Original library: Simon Carletti's [ApacheLogRegex][]
-* Inspiration:
-    - Peter Hickman's Apache::LogRegex Perl Library
-    - Harry Fuecks's [Python port][].
-    - Hamish Morgan's [PHP port][].
-
-[ApacheLogRegex]: https://github.com/weppos/apachelogregex
-[Python port]: http://code.google.com/p/apachelog/
-[PHP port]: http://kitty0.org/
-
 ## License
 
-Copyright 2013 Nick Charlton. WebLogParser is licensed under the MIT library.
+Licensed under the MIT license.
+
+Copyright (c) 2008, 2009 Simone Carletti <weppos@weppos.net>
+Copyright (c) 2013 Nick Charlton
+Copyright (c) 2016 Alexander Kurakin <kuraga333@mail.ru
 

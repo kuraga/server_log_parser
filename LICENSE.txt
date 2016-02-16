@@ -1,4 +1,6 @@
+Copyright (c) 2008, 2009 Simone Carletti <weppos@weppos.net>
 Copyright (c) 2013 Nick Charlton
+Copyright (c) 2016 Alexander Kurakin <kuraga333@mail.ru
 
 MIT License
 
