@@ -93,6 +93,49 @@ describe ServerLogParser::Parser do
 
   end
 
+  describe "#handle" do
+
+    it "should handle line" do
+      expected = { '%h'  => '212.74.15.68',
+                   '%l'  => nil,
+                   '%u'  => nil,
+                   '%t'  => DateTime.new(2004, 1, 23, 11, 36, 20, '+0'),
+                   '%r'  => {"method" => "GET", "resource" => "/images/previous.png", "protocol" => "HTTP/1.1"},
+                   '%>s' => 200,
+                   '%b'  => 2607,
+                   '%{Referer}i'     => 'http://peterhi.dyndns.org/bandwidth/index.html',
+                   '%{User-Agent}i'  => 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.2) Gecko/20021202' }
+      results = @parser.handle(read_testcase('line.log'))
+
+      assert_kind_of(Hash, results)
+      assert_match_expected_hash(expected, results)
+    end
+
+    it "return nil on invalid format" do
+      results = @parser.handle('foobar')
+
+      assert_nil(results)
+    end
+
+  end
+
+  describe "#handle!" do
+
+    it "should work" do
+      testcase = read_testcase('line.log')
+
+      expected = @parser.handle(testcase)
+      results = @parser.handle!(testcase)
+
+      assert_equal(expected, results)
+    end
+
+    it "should raise on invalid format" do
+      error = assert_raises(ServerLogParser::ParseError) { @parser.handle!('foobar') }
+      assert_match(/Invalid format/, error.message)
+    end
+
+  end
 
   protected
 

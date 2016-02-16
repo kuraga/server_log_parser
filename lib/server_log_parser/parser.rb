@@ -41,6 +41,40 @@ module ServerLogParser
       parse(line) || raise(ParseError, "Invalid format `%s` for line `%s`" % [@format, line])
     end
 
+    # Parses <tt>line</tt> according to current log <tt>format</tt>
+    # and returns an hash of log field => typed value on success.
+    # Returns <tt>nil</tt> if <tt>line</tt> doesn't match current log <tt>format</tt>.
+    def handle(line)
+      parsed = parse(line)
+      return unless parsed
+
+      handle_parsed(parsed)
+    end
+
+    # Same as <tt>ServerLogParser#parse</tt> but raises a <tt>ParseError</tt>
+    # if <tt>line</tt> doesn't match current <tt>format</tt>.
+    #
+    # ==== Raises
+    #
+    # ParseError:: if <tt>line</tt> doesn't match current <tt>format</tt>
+    #
+    def parse!(line)
+      parse(line) || raise(ParseError, "Invalid format `%s` for line `%s`" % [@format, line])
+    end
+
+    # Same as <tt>ServerLogParser#handle</tt> but raises a <tt>ParseError</tt>
+    # if <tt>line</tt> doesn't match current <tt>format</tt>.
+    #
+    # ==== Raises
+    #
+    # ParseError:: if <tt>line</tt> doesn't match current <tt>format</tt>
+    #
+    def handle!(line)
+      parsed = parse!(line)
+
+      handle_parsed(parsed)
+    end
+
 
     protected
 
@@ -86,6 +120,33 @@ module ServerLogParser
 
         @regexp = Regexp.new("^#{pattern}$")
         format
+      end
+
+      def handle_parsed(parsed)
+        data = {}
+
+        parsed.each_pair do |field, value|
+          data[field] = if value == '-'
+            nil
+          else
+            case field
+            when '%B', '%b', '%k', '%p', /%{\S+}p/, '%P', /%{\S+}P/, '%s', '%>s', '%I', '%O'
+              Integer(value)
+            when '%D', '%T'
+              Float(value)
+            when '%t'
+              DateTime.strptime(value, '[%d/%b/%Y:%H:%M:%S %Z]')
+            when '%r'
+              { 'method'   => value[/^(\w*)/, 1],
+                'resource' => value[/(\/\S*) /, 1],
+                'protocol' => value[/.* (.*)$/, 1] }	
+            else
+              value
+            end
+          end
+        end
+
+        data
       end
 
   end

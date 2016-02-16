@@ -48,8 +48,42 @@ end
 `ServerLogParser#parse` will silently ignore errors, but if you'd prefer,
 `ServerLogParser#parse!` will raise a  `ParseError` exception.
 
-Apache log files use "-" to mean no data is present and these are replaced with nil,
-like the "identity" and "user" values above. Request is split into a nested hash.
+### Handling
+
+```ruby
+File.foreach('/var/log/apache/access.log') do |line|
+  parsed = parser.handle(line)
+  # {
+  #   '%h'  => '212.74.15.68',
+  #   '%l'  => nil,
+  #   '%u'  => nil,
+  #   '%t'  => DateTime.new(2004, 1, 23, 11, 36, 20, '+0'),
+  #   '%r'  => {"method" => "GET", "resource" => "/images/previous.png", "protocol" => "HTTP/1.1"},
+  #   '%>s' => 200,
+  #   '%b'  => 2607,
+  #   '%{Referer}i'     => 'http://peterhi.dyndns.org/bandwidth/index.html',
+  #   '%{User-Agent}i'  => 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.2) Gecko/20021202'
+  # }
+end
+```
+
+Apache log files use `-` to mean no data is present and these are replaced with `nil`,
+like the `%l` and `%u` values above. Request is split into a nested hash.
+
+The following fields are stored as `Integer`: `%B`, `%b`, `%k`, `%p`, `%{format}p`,
+`%P`, `%{format}P`, `%s`, `%>s`, `%I`, `%O`.
+
+The following fields are stored as `Float`: `%D`, `%T`.
+
+The following fields are stored as `DateTime`: `%t`.
+Note: `%{format}t` is stored as `String` currently.
+
+The field `%r` is special, see above.
+
+All other fields are stored as `String`.
+
+`ServerLogParser#handle` will silently ignore errors, but if you'd prefer,
+`ServerLogParser#handle!` will raise a  `ParseError` exception.
 
 ### Log Formats
 
