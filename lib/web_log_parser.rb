@@ -50,7 +50,7 @@ class WebLogParser
   # ParseError:: if <tt>line</tt> doesn't match current <tt>format</tt>
   # 
   def parse!(line)
-    parse(line) || raise(ParseError, "Invalid format `%s` for line `%s`" % [format, line])
+    parse(line) || raise(ParseError, "Invalid format `%s` for line `%s`" % [@format, line])
   end
   
   
