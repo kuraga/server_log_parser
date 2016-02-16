@@ -6,3 +6,5 @@ Rake::TestTask.new do |t|
 end
 
 require "bundler/gem_tasks"
+
+task :default => [:test]
