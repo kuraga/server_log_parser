@@ -87,7 +87,7 @@ describe WebLogParser do
   protected
 
     def read_testcase(filename)
-      File.read("#{TESTCASES_PATH}/#{filename}")
+      File.read("#{FIXTURES_PATH}/#{filename}")
     end
 
     def assert_match_expected_hash(expected, current)
