@@ -5,8 +5,8 @@ Gem::Specification.new do |spec|
   spec.version       = ServerLogParser::VERSION
   spec.authors       = ["Alexander Kurakin"]
   spec.email         = ["kuraga333@mail.ru"]
-  spec.summary       = %q{Ruby library to parse server server log files using regular expressions.}
-  spec.description   = %q{ServerLogParser provides a high-level Ruby library for parsing server server log files (common log format, with or without virtual hosts and combined log format) as used by Server, Nginx and others.}
+  spec.summary       = %q{Ruby library to parse Apache server log files using regular expressions.}
+  spec.description   = %q{ServerLogParser provides a high-level Ruby library for parsing server server log files (common log format, with or without virtual hosts and combined log format) as used by Apache, Nginx and others.}
   spec.homepage      = "https://github.com/kuraga/server_log_parser"
   spec.license       = "MIT"
 
