@@ -21,9 +21,11 @@ Much like the original, it presents a simple parser class which can then be used
 parse the lines in a log file, but returning a hash of native types:
 
 ```ruby
-require 'apachelogparser'
+require 'web_log_parser'
 
-parser = ApacheLogParser.new(ApacheLogParser::COMBINED_VIRTUAL_HOST)
+parser = WebLogParser.new(WebLogParser::COMBINED_VIRTUAL_HOST)
+# or:
+# parser = WebLogParser.new('%v %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"')
 
 File.foreach('/var/log/apache/access.log') do |line|
   puts parser.parse(line)
