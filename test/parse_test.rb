@@ -1,10 +1,20 @@
 require 'test_helper'
 
-describe ServerLogParser do
+describe ServerLogParser::Parser do
+
+  describe "regular expression" do
+
+    it "should be correct" do
+      regexp = '(?-mix:^(\\S*) (\\S*) (\\S*) (\\[[^\\]]+\\]) (?-mix:"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)") (\\S*) (\\S*) (?-mix:"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)") (?-mix:"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)")$)'
+
+      assert_equal(@parser.regexp.to_s, regexp)
+    end
+
+  end
 
   before do
     @format = '%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"'
-    @parser = ServerLogParser.new(@format)
+    @parser = ServerLogParser::Parser.new(@format)
   end
 
   describe "#parse" do

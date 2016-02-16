@@ -21,9 +21,9 @@ gem install server_log_parser
 ```ruby
 require 'server_log_parser'
 
-parser = ServerLogParser.new(ServerLogParser::COMBINED_VIRTUAL_HOST)
+parser = ServerLogParser::Parser(ServerLogParser::COMBINED_VIRTUAL_HOST)
 # or:
-# parser = ServerLogParser.new('%v %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"')
+# parser = ServerLogParser::Parser.new('%v %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"')
 ```
 
 ### Parsing
@@ -55,18 +55,13 @@ like the "identity" and "user" values above. Request is split into a nested hash
 
 The log format is specified using a rather verbose constant, which map out like:
 
-Name                                 | Constant                         | Apache Format
------------------------------------- | -------------------------------- | ---------------------------------------------------------------------
-Common Log Format                    | `COMMON_LOG_FORMAT`              | `%h %l %u %t \"%r\" %>s %b`
-Common Log Format with virtual hosts | `COMMON_LOG_FORMAT_VIRTUAL_HOST` | `%v %h %l %u %t \"%r\" %>s %b`
-Combined                             | `COMBINED`                       | `%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"`
-Combined with virtual hosts          | `COMBINDED_VIRTUAL_HOST`         | `%v %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"`
+Name                                 | Constant                                          | Apache Format
+------------------------------------ | ------------------------------------------------- | ---------------------------------------------------------------------
+Common Log Format                    | `ServerLogParser::COMMON_LOG_FORMAT`              | `%h %l %u %t \"%r\" %>s %b`
+Common Log Format with virtual hosts | `ServerLogParser::COMMON_LOG_FORMAT_VIRTUAL_HOST` | `%v %h %l %u %t \"%r\" %>s %b`
+Combined                             | `ServerLogParser::COMBINED`                       | `%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"`
+Combined with virtual hosts          | `ServerLogParser::COMBINDED_VIRTUAL_HOST`         | `%v %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"`
 
 ## License
 
-Licensed under the MIT license.
-
-Copyright (c) 2008, 2009 Simone Carletti <weppos@weppos.net>
-Copyright (c) 2013 Nick Charlton
-Copyright (c) 2016 Alexander Kurakin <kuraga333@mail.ru
-
+MIT
