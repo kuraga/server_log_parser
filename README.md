@@ -62,6 +62,15 @@ Common Log Format with virtual hosts | `ServerLogParser::COMMON_LOG_FORMAT_VIRTU
 Combined                             | `ServerLogParser::COMBINED`                       | `%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"`
 Combined with virtual hosts          | `ServerLogParser::COMBINDED_VIRTUAL_HOST`         | `%v %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"`
 
+
+## Author
+
+Alexander Kurakin <<kuraga333@mail.ru>>
+
+## Feedback and contribute
+
+<https://github.com/kuraga/server_log_parser/issues>
+
 ## License
 
 MIT
