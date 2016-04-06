@@ -91,25 +91,20 @@ module ServerLogParser
         format.strip!                # remove leading and trailing space
         format.gsub!(/[ \t]+/, ' ')  # replace tabulations or spaces with a space
 
-        strip_quotes = proc { |string| string.gsub(/^\\"/, '').gsub(/\\"$/, '') }
-        find_quotes  = proc { |string| string =~ /^\\"/ }
-        find_percent = proc { |string| string =~ /^%.*t$/ }
-        find_referrer_or_useragent = proc { |string| string =~ /Referer|User-agent/ }
-
         pattern = format.split(' ').map do |element|
-          has_quotes = !!find_quotes.call(element)
-          element = strip_quotes.call(element) if has_quotes
+          has_quotes = element =~ /^\\"/
+          element = element.gsub(/^\\"/, '').gsub(/\\"$/, '') if has_quotes
 
           self.names << rename_this_name(element)
 
           case
             when has_quotes
-              if element == '%r' or find_referrer_or_useragent.call(element)
+              if element == '%r' || element =~ /^%{Referer}/ || element =~ /^%{User-agent}/
                 /"([^"\\]*(?:\\.[^"\\]*)*)"/
               else
                 '\"([^\"]*)\"'
               end
-            when find_percent.call(element)
+            when element =~ /^%.*t$/
                 '(\[[^\]]+\])'
             when element == '%U'
                 '(.+?)'
