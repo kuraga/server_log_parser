@@ -13,7 +13,7 @@ describe ServerLogParser::Parser do
   end
 
   before do
-    @format = '%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"'
+    @format = '%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"'
     @parser = ServerLogParser::Parser.new(@format)
   end
 
@@ -28,7 +28,7 @@ describe ServerLogParser::Parser do
                    '%>s' => '200',
                    '%b'  => '2607',
                    '%{Referer}i'     => 'http://peterhi.dyndns.org/bandwidth/index.html',
-                   '%{User-Agent}i'  => 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.2) Gecko/20021202' }
+                   '%{User-agent}i'  => 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.2) Gecko/20021202' }
       results = @parser.parse(read_testcase('line.log'))
 
       assert_kind_of(Hash, results)
@@ -44,7 +44,7 @@ describe ServerLogParser::Parser do
                    '%>s' => '200',
                    '%b'  => '2607',
                    '%{Referer}i'     => 'http://peterhi.dyndns.org/bandwidth/index.html',
-                   '%{User-Agent}i'  => 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.2) Gecko/20021202' }
+                   '%{User-agent}i'  => 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.2) Gecko/20021202' }
       results = @parser.parse(read_testcase('line_with_slash_quote_in_request.log'))
 
       assert_kind_of(Hash, results)
@@ -60,7 +60,7 @@ describe ServerLogParser::Parser do
                    '%>s' => '200',
                    '%b'  => '2607',
                    '%{Referer}i'     => 'http://peterhi.dyndns.org/bandwidth/index.html',
-                   '%{User-Agent}i'  => 'Mozilla/5.0 (X11; U; Linux \\"Superman\\\\Superwoman\\" i686; en-US; rv:1.2) Gecko/20021202' }
+                   '%{User-agent}i'  => 'Mozilla/5.0 (X11; U; Linux \\"Superman\\\\Superwoman\\" i686; en-US; rv:1.2) Gecko/20021202' }
       results = @parser.parse(read_testcase('line_with_slash_quote_in_user-agent.log'))
 
       assert_kind_of(Hash, results)
@@ -76,7 +76,7 @@ describe ServerLogParser::Parser do
                    '%>s' => '200',
                    '%b'  => '2888',
                    '%{Referer}i'     => 'http://search.yahoo.com/bin/search?p=\"grady%20white%20306%20bimini\"',
-                   '%{User-Agent}i'  => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows 98; YPC 3.0.3; yplus 4.0.00d)' }
+                   '%{User-agent}i'  => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows 98; YPC 3.0.3; yplus 4.0.00d)' }
       results = @parser.parse(read_testcase('line_with_slash_quote_in_referer.log'))
 
       assert_kind_of(Hash, results)
@@ -120,7 +120,7 @@ describe ServerLogParser::Parser do
                    '%>s' => 200,
                    '%b'  => 2607,
                    '%{Referer}i'     => 'http://peterhi.dyndns.org/bandwidth/index.html',
-                   '%{User-Agent}i'  => 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.2) Gecko/20021202' }
+                   '%{User-agent}i'  => 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.2) Gecko/20021202' }
       results = @parser.handle(read_testcase('line.log'))
 
       assert_kind_of(Hash, results)

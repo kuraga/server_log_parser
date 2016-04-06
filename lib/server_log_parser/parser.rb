@@ -94,7 +94,7 @@ module ServerLogParser
         strip_quotes = proc { |string| string.gsub(/^\\"/, '').gsub(/\\"$/, '') }
         find_quotes  = proc { |string| string =~ /^\\"/ }
         find_percent = proc { |string| string =~ /^%.*t$/ }
-        find_referrer_or_useragent = proc { |string| string =~ /Referer|User-Agent/ }
+        find_referrer_or_useragent = proc { |string| string =~ /Referer|User-agent/ }
 
         pattern = format.split(' ').map do |element|
           has_quotes = !!find_quotes.call(element)
