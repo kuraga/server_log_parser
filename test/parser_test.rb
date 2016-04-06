@@ -51,6 +51,22 @@ describe ServerLogParser::Parser do
       assert_match_expected_hash(expected, results)
     end
 
+    it "should parse line with slash quote in user agent" do
+      expected = { '%h'  => '212.74.15.68',
+                   '%l'  => '-',
+                   '%u'  => '-',
+                   '%t'  => '[23/Jan/2004:11:36:20 +0000]',
+                   '%r'  => 'GET /images/previous.png HTTP/1.1',
+                   '%>s' => '200',
+                   '%b'  => '2607',
+                   '%{Referer}i'     => 'http://peterhi.dyndns.org/bandwidth/index.html',
+                   '%{User-Agent}i'  => 'Mozilla/5.0 (X11; U; Linux \\"Superman\\\\Superwoman\\" i686; en-US; rv:1.2) Gecko/20021202' }
+      results = @parser.parse(read_testcase('line-with-slash-quote-in-user-agent.log'))
+
+      assert_kind_of(Hash, results)
+      assert_match_expected_hash(expected, results)
+    end
+
     it "should parse line with slash quote in referer" do
       expected = {  '%h'  => '4.224.234.46',
                    '%l'  => '-',
