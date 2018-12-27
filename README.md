@@ -21,7 +21,7 @@ gem install server_log_parser
 ```ruby
 require 'server_log_parser'
 
-parser = ServerLogParser::Parser(ServerLogParser::COMBINED_VIRTUAL_HOST)
+parser = ServerLogParser::Parser.new(ServerLogParser::COMBINED_VIRTUAL_HOST)
 # or:
 # parser = ServerLogParser::Parser.new('%v %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"')
 ```
